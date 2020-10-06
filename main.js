@@ -14,29 +14,24 @@ let popup;
 
 if (hasPunkt) {
     center = urlParams.get('punkt').split(',').map(nr => Number(nr));
-    marker = L.marker(center)
+    marker = new mapboxgl.Marker().setLngLat(center)
 } else {
-    center = [55.337563, 11.333293];
+    center = [11.333293, 55.337563];
 }
 
-hasZoom ? zoom = Number(urlParams.get('zoom')) : zoom = 11;
+hasZoom ? zoom = Number(urlParams.get('zoom')) : zoom = 9;
 
-const map = L.map('mapcontainer', {
+mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuaWVsLWFybmFzb24iLCJhIjoiY2tmeHZxNXYzMDZiNzJycWZndmRoOWNnZiJ9.PpTdb7sw2jk9QB_x1DtJEA'
+const map = new mapboxgl.Map({
+    container: 'mapcontainer',
+    style: 'mapbox://styles/mapbox/light-v10',
     center: center,
-    zoom: zoom,
-    zoomControl: false
-});
-
-const baseMap = L.tileLayer.wms('https://services.kortforsyningen.dk/topo_skaermkort', {
-    layers: 'dtk_skaermkort_graa',
-    format: 'image/png',
-    transparent: true,
-    token: '3129f679b92e4ae43a423f49f3cebadd'
-}).addTo(map);
+    zoom: zoom
+})
 
 hasPunkt ? marker.addTo(map) : null;
 
 if (hasLabel && marker != null) {
     const label = urlParams.get('label')
-    marker.bindPopup(`<b>${label}</b>`).openPopup();
+    marker.setPopup(new mapboxgl.Popup().setHTML(`<b>${label}</b>`))
 }
