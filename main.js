@@ -29,7 +29,19 @@ const map = new mapboxgl.Map({
     zoom: zoom
 })
 
-hasPunkt ? marker.addTo(map) : null;
+if (hasPunkt) {
+    marker.addTo(map);
+} else {
+    map.on('click', function(e) {
+        console.log(e)
+        const koordinater = e.lngLat;
+        const zoomLevel = map.getZoom();
+        new mapboxgl.Popup({closeButton: false})
+            .setLngLat(koordinater)
+            .setHTML(`<a href="https://danielarnason.github.io/kort?punkt=${koordinater.lng},${koordinater.lat}&zoom=${zoomLevel}"><b>Link til denne lokation</b></a>`)
+            .addTo(map);
+    })
+}
 
 if (hasLabel && marker != null) {
     const label = urlParams.get('label')
