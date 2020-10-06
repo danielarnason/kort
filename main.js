@@ -33,5 +33,5 @@ hasPunkt ? marker.addTo(map) : null;
 
 if (hasLabel && marker != null) {
     const label = urlParams.get('label')
-    marker.setPopup(new mapboxgl.Popup().setHTML(`<b>${label}</b>`))
+    marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<b>${label}</b>`).addTo(map))
 }
