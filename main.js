@@ -3,10 +3,20 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-const defaultCenter = [55.337563, 11.333293];
-const defaultZoom = 11;
+const hasPunkt = urlParams.has('punkt');
+const hasZoom = urlParams.has('zoom');
 
-const map = L.map('mapcontainer').setView(defaultCenter, defaultZoom);
+let center;
+let zoom;
+
+hasPunkt ? center = urlParams.get('punkt').split(',').map(nr => Number(nr)) : center = [55.337563, 11.333293];
+hasZoom ? zoom = Number(urlParams.get('zoom')) : zoom = 11;
+
+const map = L.map('mapcontainer', {
+    center: center,
+    zoom: zoom,
+    zoomControl: false
+});
 
 const baseMap = L.tileLayer.wms('https://services.kortforsyningen.dk/topo_skaermkort', {
     layers: 'dtk_skaermkort_graa',
