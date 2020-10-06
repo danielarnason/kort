@@ -35,3 +35,13 @@ if (hasLabel && marker != null) {
     const label = urlParams.get('label')
     marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<b>${label}</b>`).addTo(map))
 }
+
+map.on('click', function(e) {
+    console.log(e)
+    const koordinater = e.lngLat;
+    const zoomLevel = map.getZoom();
+    new mapboxgl.Popup()
+        .setLngLat(koordinater)
+        .setHTML(`<a href="https://danielarnason.github.io/kort?punkt=${koordinater.lng},${koordinater.lat}&zoom=${zoomLevel}"><b>Link til denne lokation</b></a>`)
+        .addTo(map);
+})
