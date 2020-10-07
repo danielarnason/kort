@@ -29,18 +29,20 @@ const map = new mapboxgl.Map({
     zoom: zoom
 })
 
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
 hasPunkt ? marker.addTo(map) : null;
 
 if (hasLabel && marker != null) {
     const label = urlParams.get('label')
-    marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<b>${label}</b>`).addTo(map))
+    marker.setPopup(new mapboxgl.Popup({closeButton: false, closeOnMove: true}).setHTML(`<b>${label}</b>`).addTo(map))
 }
 
 map.on('click', function(e) {
     console.log(e)
     const koordinater = e.lngLat;
     const zoomLevel = map.getZoom();
-    new mapboxgl.Popup()
+    new mapboxgl.Popup({closeButton: false, closeOnMove: true})
         .setLngLat(koordinater)
         .setHTML(`<a href="https://danielarnason.github.io/kort?punkt=${koordinater.lng},${koordinater.lat}&zoom=${zoomLevel}"><b>Link til denne lokation</b></a>`)
         .addTo(map);
