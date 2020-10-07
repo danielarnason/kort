@@ -29,7 +29,7 @@ const map = new mapboxgl.Map({
     zoom: zoom
 })
 
-map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+map.addControl(new mapboxgl.NavigationControl({visualizePitch: true}), 'top-left');
 
 hasPunkt ? marker.addTo(map) : null;
 
