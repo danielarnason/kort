@@ -39,8 +39,8 @@ if (hasLabel && marker != null) {
     const label = urlParams.get('label')
     popup = L.popup({closeButton: false}).setContent(`<b>${label}</b>`)
     marker.bindPopup(popup).openPopup();
+    
+    map.on('movestart', (e) => {
+        marker.closePopup();
+    })
 }
-
-map.on('movestart', (e) => {
-    marker.closePopup();
-})
