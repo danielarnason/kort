@@ -14,36 +14,33 @@ let popup;
 
 if (hasPunkt) {
     center = urlParams.get('punkt').split(',').map(nr => Number(nr));
-    marker = new mapboxgl.Marker().setLngLat(center)
+    marker = L.marker(center)
 } else {
-    center = [11.333293, 55.337563];
+    center = [55.337563, 11.333293];
 }
 
-hasZoom ? zoom = Number(urlParams.get('zoom')) : zoom = 9;
+hasZoom ? zoom = Number(urlParams.get('zoom')) : zoom = 11;
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuaWVsLWFybmFzb24iLCJhIjoiY2tmeHZxNXYzMDZiNzJycWZndmRoOWNnZiJ9.PpTdb7sw2jk9QB_x1DtJEA'
-const map = new mapboxgl.Map({
-    container: 'mapcontainer',
-    style: 'mapbox://styles/mapbox/light-v10',
+const map = L.map('mapcontainer', {
     center: center,
     zoom: zoom
-})
+});
 
-map.addControl(new mapboxgl.NavigationControl({visualizePitch: true}), 'top-left');
+const baseMap = L.tileLayer.wms('https://services.kortforsyningen.dk/topo_skaermkort', {
+    layers: 'dtk_skaermkort_graa',
+    format: 'image/png',
+    transparent: true,
+    token: '3129f679b92e4ae43a423f49f3cebadd'
+}).addTo(map);
 
 hasPunkt ? marker.addTo(map) : null;
 
 if (hasLabel && marker != null) {
     const label = urlParams.get('label')
-    marker.setPopup(new mapboxgl.Popup({closeButton: false, closeOnMove: true}).setHTML(`<b>${label}</b>`).addTo(map))
-} else if (marker == null) {
-    map.on('click', function(e) {
-        console.log(e)
-        const koordinater = e.lngLat;
-        const zoomLevel = map.getZoom();
-        new mapboxgl.Popup({closeButton: false, closeOnMove: true})
-            .setLngLat(koordinater)
-            .setHTML(`<a href="https://danielarnason.github.io/kort?punkt=${koordinater.lng},${koordinater.lat}&zoom=${zoomLevel}"><b>Link til denne lokation</b></a>`)
-            .addTo(map);
-    })
+    popup = L.popup({closeButton: false}).setContent(`<b>${label}</b>`)
+    marker.bindPopup(popup).openPopup();
 }
+
+map.on('movestart', (e) => {
+    marker.closePopup();
+})
