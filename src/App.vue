@@ -1,6 +1,8 @@
 <template>
-  <LinkContainer :coordinates="this.clickedCoordinates" :zoomLevel="this.zoomLevel" />
-  <MapView v-on:update-coordinates="updateCoordinates($event)" v-on:update-zoom="updateZoom($event)" />
+  <v-app>
+    <LinkContainer :coordinates="this.clickedCoordinates" :zoomLevel="this.zoomLevel" />
+    <MapView v-on:update-coordinates="updateCoordinates($event)" v-on:update-zoom="updateZoom($event)" />
+  </v-app>
 </template>
 
 <script>
@@ -9,10 +11,12 @@ import LinkContainer from './components/LinkContainer';
 
 export default {
   name: 'App',
+
   components: {
     MapView,
-    LinkContainer
+    LinkContainer,
   },
+
   data() {
     return {
       clickedCoordinates: null,
@@ -27,16 +31,5 @@ export default {
       this.zoomLevel = updatedZoomLevel
     }
   }
-}
+};
 </script>
-
-<style>
-body {
-    padding: 0;
-    margin: 0;
-}
-html, body, #app {
-    height: 100%;
-    width: 100%;
-}
-</style>

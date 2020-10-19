@@ -1,4 +1,4 @@
-# slagelse-map
+# slagese-map-vue2
 
 ## Project setup
 ```

@@ -1,8 +1,8 @@
 <template>
-    <div id="linkcontainer">
+    <v-container id="linkcontainer">
         <p>{{ fullLink }}</p>
-    <button>COPY!</button>
-    </div>
+        <v-btn elevation="3" block>Kopier link!</v-btn>
+    </v-container>
 </template>
 
 <script>

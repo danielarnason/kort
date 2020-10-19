@@ -13,14 +13,15 @@ export default {
             initCenter: [11.333293, 55.337563],
             zoomLevel: 9,
             marker: null,
-            clickCoordinates: null
+            clickCoordinates: null,
+            map: null
         }
     },
     watch: {
-        clickCoordinates() {
+        clickCoordinates: function() {
             this.updateCoordinates()
         },
-        zoomLevel() {
+        zoomLevel: function() {
             this.updateZoom()
         }
     },
@@ -32,11 +33,11 @@ export default {
             this.$emit('update-zoom', this.zoomLevel)
         }
     },
-    mounted() {
+    mounted: function() {
         let ref = this;
         mapboxgl.accessToken = this.accessToken;
 
-        const map = new mapboxgl.Map({
+        ref.map = new mapboxgl.Map({
             container: 'mapcontainer',
             style: 'mapbox://styles/mapbox/light-v10',
             center: this.initCenter,
@@ -44,21 +45,21 @@ export default {
 
         })
 
-        map.on('click', function(e) {
+        ref.map.on('click', function(e) {
             ref.clickCoordinates = e.lngLat
             if (ref.marker == null) {
                 ref.marker = new mapboxgl.Marker()
                     .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
-                    .addTo(map)
+                    .addTo(ref.map)
             } else {
                 ref.marker.remove()
                 ref.marker = new mapboxgl.Marker()
                     .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
-                    .addTo(map)
+                    .addTo(ref.map)
             }
         })
-        map.on('zoom', function() {
-            ref.zoomLevel = map.getZoom()
+        ref.map.on('zoomend', function() {
+            ref.zoomLevel = ref.map.getZoom()
         })
     }
 }
