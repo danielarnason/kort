@@ -38,7 +38,7 @@ export default {
 
         const map = new mapboxgl.Map({
             container: 'mapcontainer',
-            style: 'http://slgisubu01:8000/styles/positron/style.json',
+            style: 'mapbox://styles/mapbox/light-v10',
             center: this.initCenter,
             zoom: this.zoomLevel
 
