@@ -13,13 +13,17 @@
                 >
             </v-text-field>
             <v-btn elevation="3" block>Kopier link!</v-btn>
-            <v-btn class="mt-3" elevation="3" block>Vis link!</v-btn>
+            <LinkDialog :fullLink="fullLink" />
         </v-sheet>
     </v-container>
 </template>
 
 <script>
+import LinkDialog from './LinkDialog';
 export default {
+    components: {
+        LinkDialog
+    },
     data() {
         return {
             baseUrl: 'https://danielarnason.github.io/kort',
@@ -36,6 +40,9 @@ export default {
             if (this.zoomLevel) {
                 url.searchParams.append("zoom", this.zoomLevel)
             }
+            if (this.labelText) {
+                url.searchParams.append("label", this.labelText)
+            }
 
             return url
         }
@@ -48,6 +55,9 @@ export default {
     methods: {
         updateLabelText: function() {
             this.$emit('update-label', this.labelText)
+        },
+        showLink: function() {
+            console.log('Vis mig dit link!')
         }
     }
 }

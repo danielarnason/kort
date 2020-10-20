@@ -61,7 +61,7 @@ export default {
                 ref.marker = new mapboxgl.Marker()
                     .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
                     .addTo(ref.map)
-                if (ref.labelText.length > 0) {
+                if (ref.labelText && ref.labelText.length > 0) {
                     ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
                 }
             } else {
