@@ -12,9 +12,12 @@
                 outlined
                 >
             </v-text-field>
-            <v-btn elevation="3" block>Kopier link!</v-btn>
+            <v-btn @click="copyLink()" elevation="3" block>Kopier link!</v-btn>
             <LinkDialog :fullLink="fullLink" />
         </v-sheet>
+        <v-alert dense type="success" :value="this.copyAlert">
+            Du har kopieret Linket!
+        </v-alert>
     </v-container>
 </template>
 
@@ -27,7 +30,8 @@ export default {
     data() {
         return {
             baseUrl: 'https://danielarnason.github.io/kort',
-            labelText: ''
+            labelText: '',
+            copyAlert: false
         }
     },
     props: ['coordinates', 'zoomLevel'],
@@ -58,6 +62,17 @@ export default {
         },
         showLink: function() {
             console.log('Vis mig dit link!')
+        },
+        copyLink: function() {
+            let self = this;
+            navigator.clipboard.writeText(self.fullLink)
+                .then(
+                    function() {
+                        self.copyAlert = !self.copyAlert
+                        setTimeout(() => {
+                            self.copyAlert = !self.copyAlert
+                        }, 3000)
+                    })
         }
     }
 }
