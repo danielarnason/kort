@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <LinkContainer :coordinates="this.clickedCoordinates" :zoomLevel="this.zoomLevel" />
-    <MapView v-on:update-coordinates="updateCoordinates($event)" v-on:update-zoom="updateZoom($event)" />
+    <LinkContainer v-on:update-label="updateLabel($event)" :coordinates="this.clickedCoordinates" :zoomLevel="this.zoomLevel" />
+    <MapView v-on:update-coordinates="updateCoordinates($event)" v-on:update-zoom="updateZoom($event)" :labelText="this.labelText"/>
   </v-app>
 </template>
 
@@ -21,6 +21,7 @@ export default {
     return {
       clickedCoordinates: null,
       zoomLevel: null,
+      labelText: null
     }
   },
   methods: {
@@ -29,6 +30,9 @@ export default {
     },
     updateZoom: function(updatedZoomLevel) {
       this.zoomLevel = updatedZoomLevel
+    },
+    updateLabel: function(updatedLabel) {
+      this.labelText = updatedLabel
     }
   }
 };

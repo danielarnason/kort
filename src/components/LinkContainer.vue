@@ -1,7 +1,20 @@
 <template>
     <v-container id="linkcontainer">
-        <p>{{ fullLink }}</p>
-        <v-btn elevation="3" block>Kopier link!</v-btn>
+        <v-sheet
+            class="pa-2"
+            color="white"
+            rounded
+            elevation="3">
+            <v-text-field 
+                v-model="labelText"
+                label="Tekst til label"
+                hint="F.eks. din adresse"
+                outlined
+                >
+            </v-text-field>
+            <v-btn elevation="3" block>Kopier link!</v-btn>
+            <v-btn class="mt-3" elevation="3" block>Vis link!</v-btn>
+        </v-sheet>
     </v-container>
 </template>
 
@@ -9,7 +22,8 @@
 export default {
     data() {
         return {
-            baseUrl: 'https://danielarnason.github.io/kort'
+            baseUrl: 'https://danielarnason.github.io/kort',
+            labelText: ''
         }
     },
     props: ['coordinates', 'zoomLevel'],
@@ -25,6 +39,16 @@ export default {
 
             return url
         }
+    },
+    watch: {
+        labelText: function() {
+            this.updateLabelText()
+        }
+    },
+    methods: {
+        updateLabelText: function() {
+            this.$emit('update-label', this.labelText)
+        }
     }
 }
 </script>
@@ -36,12 +60,6 @@ export default {
         right: 10px;
         width: auto;
         height: auto;
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        color: white;
         z-index: 1;
-    }
-    p {
-        margin: 5px;
     }
 </style>

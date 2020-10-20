@@ -17,12 +17,22 @@ export default {
             map: null
         }
     },
+    props: [
+        'labelText'
+    ],
     watch: {
         clickCoordinates: function() {
             this.updateCoordinates()
         },
         zoomLevel: function() {
             this.updateZoom()
+        },
+        labelText: function() {
+            if (this.marker != null) {
+                this.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${this.labelText}</p>`).addTo(this.map))
+            } else if (this.marker != null && this.labelText === '') {
+                this.marker.getPopup().remove()
+            }
         }
     },
     methods: {
@@ -51,11 +61,17 @@ export default {
                 ref.marker = new mapboxgl.Marker()
                     .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
                     .addTo(ref.map)
+                if (ref.labelText.length > 0) {
+                    ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
+                }
             } else {
                 ref.marker.remove()
                 ref.marker = new mapboxgl.Marker()
                     .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
                     .addTo(ref.map)
+                if (ref.labelText.length > 0) {
+                    ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
+                }
             }
         })
         ref.map.on('zoomend', function() {
