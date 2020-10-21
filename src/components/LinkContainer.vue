@@ -12,7 +12,8 @@
                 outlined
                 >
             </v-text-field>
-            <v-btn @click="copyLink()" elevation="3" block>Kopier link!</v-btn>
+            <!-- <v-btn @click="copyLink()" elevation="3" block>Kopier link!</v-btn> -->
+            <v-btn elevation="3" block v-bind:href="this.fullLink">Åbn link</v-btn>
             <LinkDialog :fullLink="fullLink" />
         </v-sheet>
         <v-alert dense type="success" :value="this.copyAlert">
