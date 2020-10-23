@@ -16,6 +16,7 @@
             <v-btn
                 elevation="3"
                 block
+                v-bind:disabled="this.coordinateCheck"
                 :to="{
                     name: 'Kort',
                     query: {
@@ -65,6 +66,15 @@ export default {
                             self.copyAlert = !self.copyAlert
                         }, 3000)
                     })
+        }
+    },
+    computed: {
+        coordinateCheck: function() {
+            if (this.coordinates == null) {
+                return true
+            } else {
+                return false
+            }
         }
     }
 }

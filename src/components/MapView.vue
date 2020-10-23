@@ -19,8 +19,6 @@ export default {
     },
     props: [
         'labelText',
-        'zoom',
-        'punkt'
     ],
     watch: {
         clickCoordinates: function() {
@@ -80,6 +78,14 @@ export default {
             ref.map.on('zoomend', function() {
                 ref.zoomLevel = ref.map.getZoom()
             })
+        } else if (ref.$route.name === 'Kort') {
+
+            ref.marker = new mapboxgl.Marker()
+                .setLngLat(ref.$route.query.punkt.split(','))
+                .addTo(ref.map)
+            if (ref.$route.query.label && ref.$route.query.label.length > 0) {
+                ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.$route.query.label}</p>`).addTo(ref.map))
+            }
         }
     }
 }
