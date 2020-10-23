@@ -13,8 +13,19 @@
                 >
             </v-text-field>
             <!-- <v-btn @click="copyLink()" elevation="3" block>Kopier link!</v-btn> -->
-            <v-btn elevation="3" block v-bind:href="this.fullLink">Åbn link</v-btn>
-            <LinkDialog :fullLink="fullLink" />
+            <v-btn
+                elevation="3"
+                block
+                :to="{
+                    name: 'Kort',
+                    query: {
+                        label: this.labelText,
+                        zoom: this.zoomLevel,
+                        punkt: this.coordinates ? `${this.coordinates.lng},${this.coordinates.lat}` : null
+                    }
+                }">
+                Åbn link
+            </v-btn>
         </v-sheet>
         <v-alert dense type="success" :value="this.copyAlert">
             Du har kopieret Linket!
@@ -23,11 +34,7 @@
 </template>
 
 <script>
-import LinkDialog from './LinkDialog';
 export default {
-    components: {
-        LinkDialog
-    },
     data() {
         return {
             baseUrl: 'https://danielarnason.github.io/kort',
@@ -36,22 +43,6 @@ export default {
         }
     },
     props: ['coordinates', 'zoomLevel'],
-    computed: {
-        fullLink() {
-            let url = new URL(this.baseUrl)
-            if (this.coordinates) {
-                url.searchParams.append("punkt", `${this.coordinates.lng},${this.coordinates.lat}`)
-            }
-            if (this.zoomLevel) {
-                url.searchParams.append("zoom", this.zoomLevel)
-            }
-            if (this.labelText) {
-                url.searchParams.append("label", this.labelText)
-            }
-
-            return url
-        }
-    },
     watch: {
         labelText: function() {
             this.updateLabelText()

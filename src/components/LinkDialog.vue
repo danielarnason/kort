@@ -20,7 +20,7 @@
             </v-card-title>
             <v-card-text>{{ this.fullLink }}</v-card-text>
             <div class="text-center pb-4">
-                <v-btn elevation="3" v-bind:href="this.fullLink">Åbn link</v-btn>
+                <v-btn elevation="3" to="/kort">Åbn link</v-btn>
             </div>
         </v-card>
     </v-dialog>

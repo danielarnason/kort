@@ -18,7 +18,9 @@ export default {
         }
     },
     props: [
-        'labelText'
+        'labelText',
+        'zoom',
+        'punkt'
     ],
     watch: {
         clickCoordinates: function() {
@@ -55,28 +57,30 @@ export default {
 
         })
 
-        ref.map.on('click', function(e) {
-            ref.clickCoordinates = e.lngLat
-            if (ref.marker == null) {
-                ref.marker = new mapboxgl.Marker()
-                    .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
-                    .addTo(ref.map)
-                if (ref.labelText && ref.labelText.length > 0) {
-                    ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
+        if (ref.$route.name === 'KortMaskine') {
+            ref.map.on('click', function(e) {
+                ref.clickCoordinates = e.lngLat
+                if (ref.marker == null) {
+                    ref.marker = new mapboxgl.Marker()
+                        .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
+                        .addTo(ref.map)
+                    if (ref.labelText && ref.labelText.length > 0) {
+                        ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
+                    }
+                } else {
+                    ref.marker.remove()
+                    ref.marker = new mapboxgl.Marker()
+                        .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
+                        .addTo(ref.map)
+                    if (ref.labelText.length > 0) {
+                        ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
+                    }
                 }
-            } else {
-                ref.marker.remove()
-                ref.marker = new mapboxgl.Marker()
-                    .setLngLat([ref.clickCoordinates.lng, ref.clickCoordinates.lat])
-                    .addTo(ref.map)
-                if (ref.labelText.length > 0) {
-                    ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.labelText}</p>`).addTo(ref.map))
-                }
-            }
-        })
-        ref.map.on('zoomend', function() {
-            ref.zoomLevel = ref.map.getZoom()
-        })
+            })
+            ref.map.on('zoomend', function() {
+                ref.zoomLevel = ref.map.getZoom()
+            })
+        }
     }
 }
 </script>
