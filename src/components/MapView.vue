@@ -11,15 +11,15 @@ export default {
         return {
             accessToken: 'pk.eyJ1IjoiZGFuaWVsLWFybmFzb24iLCJhIjoiY2tmeHZxNXYzMDZiNzJycWZndmRoOWNnZiJ9.PpTdb7sw2jk9QB_x1DtJEA',
             initCenter: [11.333293, 55.337563],
-            zoomLevel: 9,
             marker: null,
             clickCoordinates: null,
-            map: null
+            map: null,
+            zoomLevel: 9
         }
     },
-    props: [
-        'labelText',
-    ],
+    props: {
+        labelText: String
+    },
     watch: {
         clickCoordinates: function() {
             this.updateCoordinates()
@@ -54,6 +54,10 @@ export default {
             zoom: this.zoomLevel
 
         })
+        let nav = new mapboxgl.NavigationControl({
+            visualizePitch: true
+        });
+        ref.map.addControl(nav, 'top-left')
 
         if (ref.$route.name === 'KortMaskine') {
             ref.map.on('click', function(e) {
@@ -86,6 +90,10 @@ export default {
             if (ref.$route.query.label && ref.$route.query.label.length > 0) {
                 ref.marker.setPopup(new mapboxgl.Popup({closeButton: false}).setHTML(`<p class="text-caption font-weight-bold ma-0">${ref.$route.query.label}</p>`).addTo(ref.map))
             }
+            ref.map
+                .setZoom(ref.$route.query.zoom)
+                .setCenter(ref.$route.query.punkt.split(','))
+                .removeControl(nav);
         }
     }
 }
