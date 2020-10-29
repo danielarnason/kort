@@ -12,6 +12,20 @@
                 outlined
                 >
             </v-text-field>
+            <v-text-field 
+                v-model="divWidth"
+                label="Bredde"
+                hint="I pixels"
+                outlined
+                >
+            </v-text-field>
+            <v-text-field 
+                v-model="divHeight"
+                label="Højde"
+                hint="I pixels"
+                outlined
+                >
+            </v-text-field>
             <!-- <v-btn @click="copyLink()" elevation="3" block>Kopier link!</v-btn> -->
             <v-btn
                 elevation="3"
@@ -28,9 +42,6 @@
                 Åbn link
             </v-btn>
         </v-sheet>
-        <v-alert dense type="success" :value="this.copyAlert">
-            Du har kopieret Linket!
-        </v-alert>
     </v-container>
 </template>
 
@@ -40,13 +51,20 @@ export default {
         return {
             baseUrl: 'https://danielarnason.github.io/kort',
             labelText: '',
-            copyAlert: false
+            divWidth: '',
+            divHeight: ''
         }
     },
     props: ['coordinates', 'zoomLevel'],
     watch: {
         labelText: function() {
             this.updateLabelText()
+        },
+        divWidth: function() {
+            this.updateDivWidth()
+        },
+        divHeight: function() {
+            this.updateDivHeight()
         }
     },
     methods: {
@@ -56,16 +74,11 @@ export default {
         showLink: function() {
             console.log('Vis mig dit link!')
         },
-        copyLink: function() {
-            let self = this;
-            navigator.clipboard.writeText(self.fullLink)
-                .then(
-                    function() {
-                        self.copyAlert = !self.copyAlert
-                        setTimeout(() => {
-                            self.copyAlert = !self.copyAlert
-                        }, 3000)
-                    })
+        updateDivWidth: function() {
+            this.$emit('update-width', this.divWidth)
+        },
+        updateDivHeight: function() {
+            this.$emit('update-height', this.divHeight)
         }
     },
     computed: {

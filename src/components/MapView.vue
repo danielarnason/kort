@@ -1,5 +1,5 @@
 <template>
-    <div id='mapcontainer' class="basemap"></div>
+    <div :style="{width: this.divWidth, height: this.divHeight}" id='mapcontainer' class="basemap"></div>
 </template>
 
 <script>
@@ -14,11 +14,17 @@ export default {
             marker: null,
             clickCoordinates: null,
             map: null,
-            zoomLevel: 9
+            zoomLevel: 9,
         }
     },
     props: {
-        labelText: String
+        labelText: String,
+        divWidth: {
+            type: String
+        },
+        divHeight: {
+            type: String,
+        }
     },
     watch: {
         clickCoordinates: function() {
@@ -101,7 +107,7 @@ export default {
 
 <style scoped>
 #mapcontainer {
-    height: 100%;
-    width: 100%;
+    margin: auto auto;
+    outline: 2px auto black;
 }
 </style>
