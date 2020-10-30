@@ -1,13 +1,15 @@
 <template>
   <v-app>
-    <LinkContainer v-on:update-label="updateLabel($event)" :coordinates="this.clickedCoordinates" :zoomLevel="this.zoomLevel" />
-    <MapView v-on:update-coordinates="updateCoordinates($event)" v-on:update-zoom="updateZoom($event)" :labelText="this.labelText"/>
+    <InfoFab />
+    <LinkContainer v-on:update-height="updateDivHeight($event)" v-on:update-width="updateDivWidth($event)" v-on:update-label="updateLabel($event)" :coordinates="this.clickedCoordinates" :zoomLevel="this.zoomLevel" />
+    <MapView v-on:update-coordinates="updateCoordinates($event)" v-on:update-zoom="updateZoom($event)" :labelText="this.labelText" :divWidth="this.divWidth" :divHeight="this.divHeight"/>
   </v-app>
 </template>
 
 <script>
 import MapView from '../components/MapView';
 import LinkContainer from '../components/LinkContainer';
+import InfoFab from '../components/InfoFab';
 
 export default {
   name: 'App',
@@ -15,6 +17,7 @@ export default {
   components: {
     MapView,
     LinkContainer,
+    InfoFab
   },
 
   data() {
